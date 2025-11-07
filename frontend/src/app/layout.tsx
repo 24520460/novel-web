@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      {/* Áp dụng font Inter và background màu xám nhạt */}
+      {/* Áp dụng font Inter và background màu xám nhạt ha ha */}
       <body className={`${inter.className} bg-gray-100 text-gray-800`}>
         <Header />
         <main>
