@@ -1,0 +1,77 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  AUTHOR
+  READER
+}
+
+// 1. Users
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password_hash String
+  role          Role      @default(READER)
+
+  // opposite relation fields
+  authoredStories   Story[]            @relation("AuthorOfStories")    // User -> Story (author)
+  bookmarks         Bookmark[]         @relation("UserBookmarks")      // User -> Bookmark
+  progresses        UserStoryProgress[]@relation("UserProgresses")     // User -> UserStoryProgress
+}
+
+// 2. Stories
+model Story {
+  id                String    @id @default(uuid())
+  title             String
+  slug              String    @unique
+  cover_image_url   String?
+
+  author_id         String
+  author            User      @relation("AuthorOfStories", fields: [author_id], references: [id])
+  chapters          Chapter[]
+
+  // opposite relation fields for Bookmark & Progress
+  bookmarks         Bookmark[]         @relation("StoryBookmarks")
+  progresses        UserStoryProgress[]@relation("StoryProgresses")
+}
+
+// 3. Chapters
+model Chapter {
+  id            String    @id @default(uuid())
+  title         String
+  content_url   String
+
+  story_id      String
+  story         Story     @relation(fields: [story_id], references: [id])
+}
+
+// 4. Bookmarks
+model Bookmark {
+  user_id  String
+  story_id String
+  status   String
+
+  user    User   @relation("UserBookmarks", fields: [user_id], references: [id])
+  story   Story  @relation("StoryBookmarks", fields: [story_id], references: [id])
+
+  @@id([user_id, story_id])
+}
+
+// 5. UserStoryProgress
+model UserStoryProgress {
+  user_id              String
+  story_id             String
+  last_read_chapter_id String
+
+  user    User   @relation("UserProgresses", fields: [user_id], references: [id])
+  story   Story  @relation("StoryProgresses", fields: [story_id], references: [id])
+
+  @@id([user_id, story_id])
+}
