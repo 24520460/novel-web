@@ -7,7 +7,7 @@ async function getStoryDetails(slug: string) {
     // fetch(API_URL/story/slug, { next: { revalidate: 3600 } }); // Cache 1h
     return {
         title: "Nàng Không Muốn Làm Hoàng Hậu",
-        cover_image_url: 'https://placehold.co/300x400/3b82f6/ffffff?text=Bìa+Truyện',
+        cover_image_url: 'https://placehold.co/300x400//ffffff?text=Bìa+Truyện',
         author: { name: "Thâm Bích Sắc" },
         status: "Full",
         rating: 7.0, ratingCount: 415,

@@ -15,7 +15,11 @@ async function getChapterContent(slug: string, id: string) {
         content: `<p>Mưa vào mùa hè thường kéo đến rất nhanh. Mới vừa rồi trời còn nắng chang chang, vậy mà chỉ chớp mắt mây đen đã kéo đến đen kịt cả một vùng trời.</p><br>
                   <p>Vân Kiều nhìn về bến tàu gần đó, lòng đầy lo lắng. Chuyến hàng này rất quan trọng với nàng, nếu bị mưa làm ướt thì coi như công sức cả tháng nay đổ sông đổ bể.</p><br>
                   <p>"Tiểu thư, chúng ta mau tìm chỗ trú mưa thôi!" - Nha hoàn Tiểu Thúy vội vàng che ô chạy tới.</p>
-                  <p>Vân Kiều lắc đầu: "Không được, ta phải đợi thuyền cập bến đã."</p>`,
+                  <p>Vân Kiều gật đầu, hai người nhanh chóng chạy về phía một cái chòi nhỏ gần đó. Trời càng lúc càng mưa to, tiếng mưa rơi lộp độp trên mái chòi nghe thật ầm ĩ.</p><br>
+                  <p>"May mà kịp chạy vào đây, không thì ướt hết cả." - Tiểu Thúy thở phào nói.</p><br>
+                  <p>"Tiểu thư, chúng ta có nên chờ ở đây không?" - Tiểu Thúy hỏi.</p>
+                  <p>Vân Kiều gật đầu: "Chờ một lát xem sao, nếu mưa không ngớt thì phải tìm cách khác."</p>
+                  <p> và ô văn kê </p>`,
         prevId: currentId > 1 ? currentId - 1 : null,
         nextId: currentId + 1, // Bạn cần logic để kiểm tra xem có chương tiếp theo thật không
     }
