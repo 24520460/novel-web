@@ -1,43 +1,24 @@
-import { Controller, Post, UseGuards, Body, Request, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body, Request } from '@nestjs/common';
+import { StoryService } from './story.service';
+import { CreateStoryDto } from './dto/create-story.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '@prisma/client';
-import { PrismaService } from '../prisma.service'; // Đảm bảo đường dẫn đúng
+import { Role } from '@prisma/client'; // Hoặc đường dẫn tới enum Role của bạn
 
 @Controller('stories')
 export class StoryController {
-  // Inject PrismaService vào constructor
-  constructor(private prisma: PrismaService) {}
+  // CHỈ Inject StoryService, không inject PrismaService trực tiếp vào Controller nếu không quá cần thiết
+  constructor(private readonly storyService: StoryService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.AUTHOR, Role.ADMIN)
-  async createStory(@Request() req, @Body() data: { title: string; description?: string; cover_image_url?: string }) {
-    // Lấy ID của user đang đăng nhập từ token (do JwtAuthGuard gán vào req.user)
-    // Lưu ý: Cần đảm bảo JwtStrategy của bạn trả về object có trường 'id'
+  async create(@Request() req, @Body() createStoryDto: CreateStoryDto) {
+    // Lấy userId từ token (do JwtAuthGuard đã validate và gán vào req.user)
     const userId = req.user.id; 
-
-    // Tạo slug đơn giản từ title (có thể cải thiện sau để xử lý tiếng Việt tốt hơn)
-    // Thêm timestamp để tránh trùng lặp slug
-    const slug = data.title
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-')
-      .replace(/^-+|-+$/g, '') + '-' + Date.now();
-
-    const newStory = await this.prisma.story.create({
-      data: {
-        title: data.title,
-        slug: slug,
-        description: data.description,
-        cover_image_url: data.cover_image_url,
-        author_id: userId,
-        // status mặc định là ONGOING như trong schema
-      },
-    });
-
-    return { message: 'Tạo truyện thành công', story: newStory };
+    
+    // Gọi service để xử lý logic
+    return this.storyService.create(createStoryDto, userId);
   }
 }
