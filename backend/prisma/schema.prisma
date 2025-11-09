@@ -43,7 +43,7 @@ model Story {
   view_count        Int         @default(0)       // Đếm tổng lượt xem
   
   author_id         String
-  author            User        @relation("AuthorOfStories", fields: [author_id], references: [id])
+  author            User        @relation("AuthorOfStories", fields: [author_id], references: [id], onDelete: Cascade)
   
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
@@ -64,7 +64,7 @@ model Chapter {
   view_count  Int      @default(0)
 
   story_id    String
-  story       Story    @relation(fields: [story_id], references: [id])
+  story       Story    @relation(fields: [story_id], references: [id], onDelete: Cascade)
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -78,8 +78,8 @@ model Bookmark {
   story_id String
   createdAt DateTime @default(now())
 
-  user    User   @relation(fields: [user_id], references: [id])
-  story   Story  @relation(fields: [story_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  story   Story  @relation(fields: [story_id], references: [id], onDelete: Cascade)
 
   @@id([user_id, story_id])
 }
@@ -90,8 +90,8 @@ model UserStoryProgress {
   last_read_chapter_id String
   updatedAt            DateTime @updatedAt // Biết được đọc lần cuối khi nào
 
-  user    User   @relation(fields: [user_id], references: [id])
-  story   Story  @relation(fields: [story_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  story   Story  @relation(fields: [story_id], references: [id], onDelete: Cascade)
 
   @@id([user_id, story_id])
 }

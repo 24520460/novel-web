@@ -5,13 +5,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config'; // <-- 1. Import
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     ConfigModule.forRoot({ // <-- 2. Thêm vào imports
       isGlobal: true,      // <-- 3. Đặt là global để mọi module khác đều dùng được
     }),
     AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
