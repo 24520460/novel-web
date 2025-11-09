@@ -37,7 +37,7 @@ export default function LoginPage() {
       
       // Lưu token vào localStorage (đơn giản để bắt đầu)
       // Trong ứng dụng thực tế, bạn nên cân nhắc dùng httpOnly cookies để bảo mật hơn.
-      localStorage.setItem('accessToken', data.access_token);
+      localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
       // Chuyển hướng về trang chủ hoặc trang trước đó

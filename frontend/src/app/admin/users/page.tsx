@@ -22,12 +22,13 @@ export default function AdminUsersPage() {
   const router = useRouter();
 
   // URL của backend - hãy đổi nếu bạn chạy port khác
-  const BACKEND_URL = 'http://localhost:3001';
+  const BACKEND_URL = 'http://localhost:4000';
 
   useEffect(() => {
     // 1. Kiểm tra quyền Admin khi vào trang
     // Lấy token và thông tin user từ localStorage (hoặc nơi bạn lưu trữ)
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
+    console.log("Token sent:", token);
     let userRole = '';
     try {
       const userStr = localStorage.getItem('user');
@@ -82,7 +83,7 @@ export default function AdminUsersPage() {
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('access_token');
       const res = await fetch(`${BACKEND_URL}/users/${userId}`, {
         method: 'DELETE',
         headers: {
