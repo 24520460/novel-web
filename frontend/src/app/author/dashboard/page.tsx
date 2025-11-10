@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function AuthorDashboard() {
-  const { user, loading, isAuthor } = useAuth();
+  const { user, loading, isAuthor, logout } = useAuth();
   const router = useRouter();
 
   // State cho form
@@ -33,9 +33,17 @@ export default function AuthorDashboard() {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage({ text: '', type: '' });
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setMessage({ text: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.', type: 'error' });
+      // Tùy chọn: Tự động đăng xuất nếu mất token
+      // setTimeout(() => logout(), 2000);
+      return;
+      }
+    setIsSubmitting(true);
+    setMessage({ text: '', type: '' });
 
     try {
-      const token = localStorage.getItem('accessToken');
       // Thay đổi URL này nếu backend của bạn chạy ở port khác hoặc đã deploy
       const res = await fetch('http://localhost:4000/stories', {
         method: 'POST',
